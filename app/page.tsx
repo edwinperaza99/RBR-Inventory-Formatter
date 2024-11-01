@@ -34,19 +34,23 @@ export default function Home() {
 	};
 
 	return (
-		<main className="container mx-auto flex justify-center">
+		<main className="container mx-auto flex justify-center items-center min-h-screen">
 			<div>
-				<h1 className="text-center">Excel File Processor</h1>
-				<Label htmlFor="file-upload">Upload Excel File:</Label>
-				<Input
-					id="file-upload"
-					type="file"
-					accept=".xls"
-					onChange={handleFileChange}
-				/>
-				<Button onClick={handleFileUpload} disabled={!file}>
-					Process File
-				</Button>
+				<h1 className="text-center text-4xl">RBR Inventory Formatter</h1>
+				<div className="mt-4">
+					<Label htmlFor="file-upload">Upload Excel File:</Label>
+					<Input
+						id="file-upload"
+						type="file"
+						accept=".xls"
+						onChange={handleFileChange}
+					/>
+					<div className="mt-4">
+						<Button onClick={handleFileUpload} disabled={!file}>
+							Process File
+						</Button>
+					</div>
+				</div>
 			</div>
 		</main>
 	);
