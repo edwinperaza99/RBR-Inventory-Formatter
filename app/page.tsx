@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { saveAs } from "file-saver";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
 	const [file, setFile] = useState<File | null>(null);
@@ -31,18 +34,20 @@ export default function Home() {
 	};
 
 	return (
-		<div>
-			<h1>Excel File Processor</h1>
-			<label htmlFor="file-upload">Upload Excel File:</label>
-			<input
-				id="file-upload"
-				type="file"
-				accept=".xls"
-				onChange={handleFileChange}
-			/>
-			<button onClick={handleFileUpload} disabled={!file}>
-				Process File
-			</button>
-		</div>
+		<main className="container mx-auto flex justify-center">
+			<div>
+				<h1 className="text-center">Excel File Processor</h1>
+				<Label htmlFor="file-upload">Upload Excel File:</Label>
+				<Input
+					id="file-upload"
+					type="file"
+					accept=".xls"
+					onChange={handleFileChange}
+				/>
+				<Button onClick={handleFileUpload} disabled={!file}>
+					Process File
+				</Button>
+			</div>
+		</main>
 	);
 }
