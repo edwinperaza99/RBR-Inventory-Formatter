@@ -5,6 +5,7 @@ import { saveAs } from "file-saver";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/toggle-theme-button";
 
 export default function Home() {
 	const [file, setFile] = useState<File | null>(null);
@@ -35,6 +36,7 @@ export default function Home() {
 
 	return (
 		<main className="container mx-auto flex justify-center items-center min-h-screen">
+			<ModeToggle />
 			<div>
 				<h1 className="text-center text-4xl">RBR Inventory Formatter</h1>
 				<div className="mt-4">
