@@ -1,6 +1,6 @@
-import * as XLSX from "xlsx";
 import ExcelJS, { BorderStyle } from "exceljs";
 import { NextResponse } from "next/server";
+import * as XLSX from "xlsx";
 
 export async function POST(req: Request) {
 	const formData = await req.formData();
@@ -62,16 +62,14 @@ export async function POST(req: Request) {
 		worksheet.getRow(2).getCell(lastColumnIndex + 2).value = "tempValue"; // Leave initials blank
 
 		// **Add 15 Extra Rows with "tempValue" for Manual Entries**
-		const startRow = worksheet.rowCount - 1; // Start after the last populated row
-		const endRow = startRow + 14; // Add up to 15 rows
+		const startRow = 3; // Start after the last populated row
+		const endRow = 15; // Add up to 15 rows
 
 		for (let i = startRow; i <= endRow; i++) {
-			const row = worksheet.getRow(i);
-
 			// Insert "tempValue" in cells to apply the border style
-			row.getCell(lastColumnIndex).value = "tempValue"; // "Inventory Date" column
-			row.getCell(lastColumnIndex + 1).value = "tempValue"; // "Checkmark" column
-			row.getCell(lastColumnIndex + 2).value = "tempValue"; // "Initials" column
+			worksheet.getRow(i).getCell(lastColumnIndex).value = "tempValue"; // "Inventory Date" column
+			worksheet.getRow(i).getCell(lastColumnIndex + 1).value = "tempValue"; // "Checkmark" column
+			worksheet.getRow(i).getCell(lastColumnIndex + 2).value = "tempValue"; // "Initials" column
 		}
 
 		// **Column Deletion and Other Processing Steps**
@@ -97,6 +95,11 @@ export async function POST(req: Request) {
 		columnsIndicesToDelete.sort((a, b) => b - a);
 		columnsIndicesToDelete.forEach((colIndex) => {
 			worksheet.spliceColumns(colIndex, 1);
+		});
+
+		// Apply wrapText to all columns in the worksheet
+		worksheet.columns.forEach((column) => {
+			column.alignment = { wrapText: true };
 		});
 
 		// **Add Blank Rows at the Top**
