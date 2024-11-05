@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 		const columnsToDelete = [
 			"Author",
 			"Location",
-			"ISBN/ISNN",
+			"ISBN/ISSN",
 			"Imprint",
 			"Edition",
 			"Digital Availability",
