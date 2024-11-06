@@ -6,6 +6,13 @@ export async function POST(req: Request) {
 	const formData = await req.formData();
 	const file = formData.get("file") as File;
 
+	// Retrieve toggle states from formData
+	const removeAuthor = formData.get("removeAuthor") === "true";
+	const removeLocation = formData.get("removeLocation") === "true";
+	const removeISBN = formData.get("removeISBN") === "true";
+	const removeEdition = formData.get("removeEdition") === "true";
+	const removeAvailability = formData.get("removeAvailability") === "true";
+
 	if (!file) {
 		return new NextResponse("No file uploaded", { status: 400 });
 	}
@@ -25,7 +32,7 @@ export async function POST(req: Request) {
 		const worksheet = excelWorkbook.worksheets[0];
 
 		// **Set Workbook Metadata** (Creator, created date, modified date)
-		excelWorkbook.creator = "YourName";
+		excelWorkbook.creator = "Edwin Peraza";
 		excelWorkbook.created = new Date();
 		excelWorkbook.modified = new Date();
 
@@ -74,14 +81,18 @@ export async function POST(req: Request) {
 
 		// **Column Deletion and Other Processing Steps**
 		const columnsToDelete = [
-			"Author",
-			"Location",
-			"ISBN/ISSN",
 			"Imprint",
-			"Edition",
 			"Digital Availability",
 			"Electronic Availability",
 		];
+
+		// Remove columns based on toggle states
+		if (removeAuthor) columnsToDelete.push("Author");
+		if (removeLocation) columnsToDelete.push("Location");
+		if (removeISBN) columnsToDelete.push("ISBN/ISSN");
+		if (removeEdition) columnsToDelete.push("Edition");
+		if (removeAvailability) columnsToDelete.push("Availability");
+
 		const headerRow = worksheet.getRow(1);
 
 		const columnsIndicesToDelete: number[] = [];
