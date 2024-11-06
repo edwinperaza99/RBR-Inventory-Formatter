@@ -12,6 +12,7 @@ export async function POST(req: Request) {
 	const removeISBN = formData.get("removeISBN") === "true";
 	const removeEdition = formData.get("removeEdition") === "true";
 	const removeAvailability = formData.get("removeAvailability") === "true";
+	const initials = formData.get("initials") as string;
 
 	if (!file) {
 		return new NextResponse("No file uploaded", { status: 400 });
@@ -66,7 +67,8 @@ export async function POST(req: Request) {
 		// Populate only the first row of the new columns
 		worksheet.getRow(2).getCell(lastColumnIndex).value = formattedDate;
 		worksheet.getRow(2).getCell(lastColumnIndex + 1).value = "✓";
-		worksheet.getRow(2).getCell(lastColumnIndex + 2).value = "tempValue"; // Leave initials blank
+		const defaultInitials = initials || "tempValue";
+		worksheet.getRow(2).getCell(lastColumnIndex + 2).value = defaultInitials;
 
 		// **Add 15 Extra Rows with "tempValue" for Manual Entries**
 		const startRow = 3; // Start after the last populated row

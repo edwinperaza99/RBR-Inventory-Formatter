@@ -111,7 +111,6 @@ export default function Home() {
 		formData.append("removeEdition", removeEdition.toString());
 		formData.append("removeAvailability", removeAvailability.toString());
 		formData.append("initials", initials);
-		formData.append("endDate", date?.toISOString() || "");
 		if (date) {
 			const formattedDate = format(date, "MM/dd/yyyy");
 			formData.append("endDate", formattedDate);
@@ -188,10 +187,11 @@ export default function Home() {
 					</Label>
 				</div>
 				<div className="flex flex-col gap-1">
-					<Label>End Date:</Label>
+					<Label htmlFor="end-date">End Date:</Label>
 					<Popover>
 						<PopoverTrigger asChild>
 							<Button
+								id="end-date"
 								variant={"outline"}
 								className={cn(
 									"w-[280px] justify-start text-left font-normal",
@@ -213,11 +213,14 @@ export default function Home() {
 					</Popover>
 				</div>
 				<div className="flex flex-col gap-1">
-					<Label>Initials:</Label>
+					<Label htmlFor="initials">Initials:</Label>
 					<Input
+						id="initials"
 						type="text"
 						placeholder="This field is optional"
 						className="px-4"
+						value={initials}
+						onChange={(e) => setInitials(e.target.value)}
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
