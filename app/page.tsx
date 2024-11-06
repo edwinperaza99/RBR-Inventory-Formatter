@@ -18,6 +18,7 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
+	const [isLoading, setIsLoading] = useState(false);
 	const [file, setFile] = useState<File | null>(null);
 	const [date, setDate] = useState<Date>();
 	const [initials, setInitials] = useState<string>("");
@@ -96,6 +97,8 @@ export default function Home() {
 	const handleFileUpload = async () => {
 		if (!file) return;
 
+		setIsLoading(true); // Set loading state to true
+
 		const formData = new FormData();
 		formData.append("file", file);
 
@@ -124,6 +127,7 @@ export default function Home() {
 		} else {
 			alert("Failed to process file");
 		}
+		setIsLoading(false); // Reset loading state after processing
 	};
 
 	return (
@@ -224,8 +228,8 @@ export default function Home() {
 					/>
 				</div>
 				<div className="mt-4">
-					<Button type="submit" disabled={!file}>
-						Process File
+					<Button type="submit" disabled={!file || isLoading}>
+						{isLoading ? "Processing..." : "Process File"}
 					</Button>
 				</div>
 			</form>
