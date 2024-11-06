@@ -16,6 +16,7 @@ export default function Home() {
 	const [removeLocation, setRemoveLocation] = useState(false);
 	const [removeISBN, setRemoveISBN] = useState(false);
 	const [removeEdition, setRemoveEdition] = useState(false);
+	const [removeAvailability, setRemoveAvailability] = useState(false);
 
 	// useEffect to load initial values from localStorage on the client side
 	useEffect(() => {
@@ -25,6 +26,9 @@ export default function Home() {
 			setRemoveLocation(localStorage.getItem("removeLocation") === "true");
 			setRemoveISBN(localStorage.getItem("removeISBN") === "true");
 			setRemoveEdition(localStorage.getItem("removeEdition") === "true");
+			setRemoveAvailability(
+				localStorage.getItem("removeAvailability") === "true"
+			);
 		}
 	}, []);
 
@@ -48,6 +52,12 @@ export default function Home() {
 		if (typeof window !== "undefined")
 			localStorage.setItem("removeEdition", removeEdition.toString());
 	}, [removeEdition]);
+
+	useEffect(() => {
+		if (typeof window !== "undefined")
+			localStorage.setItem("removeAvailability", removeAvailability.toString());
+	}, [removeAvailability]);
+
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const uploadedFile = e.target.files?.[0];
 		if (uploadedFile) setFile(uploadedFile);
