@@ -79,8 +79,10 @@ export default function Home() {
 	}, [removeAvailability]);
 
 	useEffect(() => {
-		if (date) {
-			localStorage.setItem("endDate", JSON.stringify(date.toISOString()));
+		if (typeof window !== "undefined") {
+			if (date) {
+				localStorage.setItem("endDate", JSON.stringify(date.toISOString()));
+			}
 		}
 	}, [date]);
 
