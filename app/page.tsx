@@ -11,44 +11,43 @@ import { Switch } from "@/components/ui/switch";
 export default function Home() {
 	const [file, setFile] = useState<File | null>(null);
 
-	// Initialize toggle states from localStorage if available
-	const [removeAuthor, setRemoveAuthor] = useState(
-		() => localStorage.getItem("removeAuthor") === "true"
-	);
-	const [removeLocation, setRemoveLocation] = useState(
-		() => localStorage.getItem("removeLocation") === "true"
-	);
-	const [removeISBN, setRemoveISBN] = useState(
-		() => localStorage.getItem("removeISBN") === "true"
-	);
-	const [removeEdition, setRemoveEdition] = useState(
-		() => localStorage.getItem("removeEdition") === "true"
-	);
-	const [removeAvailability, setRemoveAvailability] = useState(
-		() => localStorage.getItem("removeAvailability") === "true"
-	);
+	// Initialize states to default values without accessing localStorage directly
+	const [removeAuthor, setRemoveAuthor] = useState(false);
+	const [removeLocation, setRemoveLocation] = useState(false);
+	const [removeISBN, setRemoveISBN] = useState(false);
+	const [removeEdition, setRemoveEdition] = useState(false);
 
-	// Save the toggle state to localStorage whenever it changes
+	// useEffect to load initial values from localStorage on the client side
 	useEffect(() => {
-		localStorage.setItem("removeAuthor", removeAuthor.toString());
+		if (typeof window !== "undefined") {
+			// Ensure we're in the client
+			setRemoveAuthor(localStorage.getItem("removeAuthor") === "true");
+			setRemoveLocation(localStorage.getItem("removeLocation") === "true");
+			setRemoveISBN(localStorage.getItem("removeISBN") === "true");
+			setRemoveEdition(localStorage.getItem("removeEdition") === "true");
+		}
+	}, []);
+
+	// Individual useEffects to update localStorage whenever toggle state changes
+	useEffect(() => {
+		if (typeof window !== "undefined")
+			localStorage.setItem("removeAuthor", removeAuthor.toString());
 	}, [removeAuthor]);
 
 	useEffect(() => {
-		localStorage.setItem("removeLocation", removeLocation.toString());
+		if (typeof window !== "undefined")
+			localStorage.setItem("removeLocation", removeLocation.toString());
 	}, [removeLocation]);
 
 	useEffect(() => {
-		localStorage.setItem("removeISBN", removeISBN.toString());
+		if (typeof window !== "undefined")
+			localStorage.setItem("removeISBN", removeISBN.toString());
 	}, [removeISBN]);
 
 	useEffect(() => {
-		localStorage.setItem("removeEdition", removeEdition.toString());
+		if (typeof window !== "undefined")
+			localStorage.setItem("removeEdition", removeEdition.toString());
 	}, [removeEdition]);
-
-	useEffect(() => {
-		localStorage.setItem("removeAvailability", removeAvailability.toString());
-	}, [removeAvailability]);
-
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const uploadedFile = e.target.files?.[0];
 		if (uploadedFile) setFile(uploadedFile);
