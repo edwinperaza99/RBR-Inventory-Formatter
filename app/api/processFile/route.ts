@@ -67,7 +67,15 @@ export async function POST(req: Request) {
 
 		// Populate only the first row of the new columns
 		worksheet.getRow(2).getCell(lastColumnIndex).value = formattedDate;
+		worksheet.getRow(2).getCell(lastColumnIndex).alignment = {
+			horizontal: "center",
+			vertical: "middle",
+		};
 		worksheet.getRow(2).getCell(lastColumnIndex + 1).value = "✓";
+		worksheet.getRow(2).getCell(lastColumnIndex + 1).alignment = {
+			horizontal: "center",
+			vertical: "middle",
+		};
 		const defaultInitials = initials || "tempValue";
 		worksheet.getRow(2).getCell(lastColumnIndex + 2).value = defaultInitials;
 		worksheet.getRow(2).getCell(lastColumnIndex + 2).alignment = {
