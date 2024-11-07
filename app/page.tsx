@@ -203,6 +203,18 @@ export default function Home() {
 							</Button>
 						</PopoverTrigger>
 						<PopoverContent className="w-auto p-0">
+							{date && (
+								<Button
+									variant="secondary"
+									onClick={() => {
+										setDate(undefined); // Clear the date state
+										localStorage.removeItem("endDate"); // Remove the date from localStorage
+									}}
+									className="w-full"
+								>
+									Clear Date
+								</Button>
+							)}
 							<Calendar
 								mode="single"
 								selected={date}

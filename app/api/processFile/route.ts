@@ -13,6 +13,7 @@ export async function POST(req: Request) {
 	const removeEdition = formData.get("removeEdition") === "true";
 	const removeAvailability = formData.get("removeAvailability") === "true";
 	const initials = formData.get("initials") as string;
+	const endDate = formData.get("endDate");
 
 	if (!file) {
 		return new NextResponse("No file uploaded", { status: 400 });
@@ -145,6 +146,26 @@ export async function POST(req: Request) {
 				}
 			});
 		});
+
+		// add end date message
+		if (endDate) {
+			const initialsColumnHeader = "Initials";
+
+			// Find the index of the "Initials" column by searching the first row
+			const headerRow = worksheet.getRow(3);
+			let initialsColumnIndex: number | undefined;
+
+			headerRow.eachCell((cell, colNumber) => {
+				if (cell.value === initialsColumnHeader) {
+					initialsColumnIndex = colNumber;
+				}
+			});
+
+			if (initialsColumnIndex) {
+				const message = `End date updated to ${endDate} - ${initials || "N/A"}`;
+				worksheet.getRow(1).getCell(initialsColumnIndex).value = message;
+			}
+		}
 
 		// **Auto-Fit Columns for Printing**
 		const columns = worksheet.columns as ExcelJS.Column[] | undefined;
