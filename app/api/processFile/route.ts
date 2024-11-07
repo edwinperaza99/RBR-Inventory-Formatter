@@ -46,9 +46,9 @@ export async function POST(req: Request) {
 		worksheet.views = [{ state: "normal" }];
 		worksheet.pageSetup = {
 			orientation: "landscape",
-			fitToPage: true,
-			fitToWidth: 1,
-			fitToHeight: 0,
+			// fitToPage: true,
+			// fitToWidth: 1,
+			// fitToHeight: 0,
 		};
 
 		// **Add New Columns for Inventory at the End of Existing Columns Before Deletion**
@@ -120,6 +120,10 @@ export async function POST(req: Request) {
 		worksheet.insertRow(1, []);
 		worksheet.insertRow(1, []);
 
+		// Enable wrap text for the first two rows
+		worksheet.getRow(1).alignment = { wrapText: true };
+		worksheet.getRow(2).alignment = { wrapText: true };
+
 		// **Bold Formatting for the First Three Rows**
 		for (let i = 1; i <= 3; i++) {
 			worksheet.getRow(i).font = { bold: true };
@@ -164,14 +168,25 @@ export async function POST(req: Request) {
 			if (initialsColumnIndex) {
 				const message = `End date updated to ${endDate} - ${initials || "N/A"}`;
 				worksheet.getRow(1).getCell(initialsColumnIndex).value = message;
+				worksheet.getRow(1).getCell(initialsColumnIndex).alignment = {
+					horizontal: "right",
+				};
 			}
 		}
+
+		// **Clear Header/Footer to Avoid Extra Print Page**
+		worksheet.headerFooter = {
+			oddHeader: "", // Clear header for odd pages
+			oddFooter: "", // Clear footer for odd pages
+			evenHeader: "", // Clear header for even pages, if duplex printing
+			evenFooter: "", // Clear footer for even pages, if duplex printing
+		};
 
 		// **Auto-Fit Columns for Printing**
 		const columns = worksheet.columns as ExcelJS.Column[] | undefined;
 		if (columns) {
 			columns.forEach((column) => {
-				let maxLength = 10; // Default width
+				let maxLength = 5; // Default width
 				if (column) {
 					column.eachCell({ includeEmpty: true }, (cell) => {
 						if (cell.value) {
