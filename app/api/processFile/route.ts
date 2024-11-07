@@ -70,6 +70,10 @@ export async function POST(req: Request) {
 		worksheet.getRow(2).getCell(lastColumnIndex + 1).value = "✓";
 		const defaultInitials = initials || "tempValue";
 		worksheet.getRow(2).getCell(lastColumnIndex + 2).value = defaultInitials;
+		worksheet.getRow(2).getCell(lastColumnIndex + 2).alignment = {
+			horizontal: "center",
+			vertical: "middle",
+		};
 
 		// **Add 15 Extra Rows with "tempValue" for Manual Entries**
 		const startRow = 3; // Start after the last populated row
@@ -126,7 +130,7 @@ export async function POST(req: Request) {
 
 		// **Bold Formatting for the First Three Rows**
 		for (let i = 1; i <= 3; i++) {
-			worksheet.getRow(i).font = { bold: true };
+			worksheet.getRow(i).font = { bold: true, name: "Arial", size: 11 };
 		}
 
 		// **Define Border Style**
@@ -137,10 +141,15 @@ export async function POST(req: Request) {
 			right: { style: "thin" as BorderStyle },
 		};
 
-		// **Set Font for the Entire Document to Arial 12**
+		const defaultFont = { name: "Arial", size: 11 };
+		// **Set Font for the Entire Document to Arial 11**
 		worksheet.eachRow((row) => {
-			row.eachCell((cell) => {
-				cell.font = { name: "Arial", size: 12 };
+			row.eachCell({ includeEmpty: true }, (cell) => {
+				if (row.number === 3) {
+					cell.font = { bold: true, name: "Arial", size: 11 };
+				} else {
+					cell.font = defaultFont;
+				}
 				if (cell.value) {
 					cell.border = borderStyle;
 					// Clear "tempValue" after applying border
