@@ -123,18 +123,18 @@ export async function POST(req: Request) {
 			worksheet.spliceColumns(colIndex, 1);
 		});
 
-		// Apply wrapText to all columns in the worksheet
-		worksheet.columns.forEach((column) => {
-			column.alignment = { wrapText: true };
-		});
-
 		// **Add Blank Rows at the Top**
 		worksheet.insertRow(1, []);
 		worksheet.insertRow(1, []);
 
+		// Enable wrap text for all columns
+		worksheet.columns.forEach((column) => {
+			column.alignment = { wrapText: true };
+		});
+
 		// Enable wrap text for the first two rows
-		worksheet.getRow(1).alignment = { wrapText: true };
-		worksheet.getRow(2).alignment = { wrapText: true };
+		worksheet.getRow(1).alignment = { wrapText: false };
+		worksheet.getRow(2).alignment = { wrapText: false };
 
 		// **Bold Formatting for the First Three Rows**
 		for (let i = 1; i <= 3; i++) {
