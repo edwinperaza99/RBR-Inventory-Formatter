@@ -46,9 +46,9 @@ export async function POST(req: Request) {
 		worksheet.views = [{ state: "normal" }];
 		worksheet.pageSetup = {
 			orientation: "landscape",
-			fitToPage: true,
-			fitToWidth: 1,
-			fitToHeight: 0,
+			// fitToPage: true,
+			// fitToWidth: 1,
+			// fitToHeight: 0,
 		};
 
 		// **Add New Columns for Inventory at the End of Existing Columns Before Deletion**
