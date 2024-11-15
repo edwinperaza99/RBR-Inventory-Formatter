@@ -46,9 +46,9 @@ export async function POST(req: Request) {
 		worksheet.views = [{ state: "normal" }];
 		worksheet.pageSetup = {
 			orientation: "landscape",
-			// fitToPage: true,
-			// fitToWidth: 1,
-			// fitToHeight: 0,
+			fitToPage: true,
+			fitToWidth: 1,
+			fitToHeight: 0,
 		};
 
 		// **Add New Columns for Inventory at the End of Existing Columns Before Deletion**
@@ -149,7 +149,7 @@ export async function POST(req: Request) {
 			right: { style: "thin" as BorderStyle },
 		};
 
-		const defaultFont = { name: "Arial", size: 11 };
+		const defaultFont = { name: "Arial", size: 10 };
 		// **Set Font for the Entire Document to Arial 11**
 		worksheet.eachRow((row) => {
 			row.eachCell({ includeEmpty: true }, (cell) => {
