@@ -5,7 +5,6 @@ import { saveAs } from "file-saver";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/toggle-theme-button";
 import { Switch } from "@/components/ui/switch";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -16,6 +15,7 @@ import {
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +133,7 @@ export default function Home() {
 
 	return (
 		<main className="container mx-auto flex flex-col justify-center items-center min-h-screen">
-			<ModeToggle />
+			<Navbar />
 			<h1 className="text-center text-3xl sm:text-5xl my-5">
 				RBR List Formatter
 			</h1>
