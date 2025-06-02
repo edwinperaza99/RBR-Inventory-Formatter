@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Info, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { HiArrowLeft } from "react-icons/hi";
 
 import { Button } from "@/components/ui/button";
